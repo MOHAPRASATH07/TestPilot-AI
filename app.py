@@ -311,7 +311,7 @@ body, .gradio-container { background: #0f172a !important; color: #f8fafc !import
 .gr-button-primary { background: #0284c7 !important; border-color: #38bdf8 !important; }
 """
 
-with gr.Blocks(theme=gr.themes.Base(), css=CSS, title="TestPilot AI") as demo:
+with gr.Blocks(title="TestPilot AI") as demo:
 
     gr.Markdown("""
 # ⚡ TestPilot AI
@@ -453,4 +453,4 @@ Zenodo DOI: [10.5281/zenodo.6415365](https://zenodo.org/records/6415365)
 """)
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(theme=gr.themes.Base(), css=CSS)
