@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+{% block title %}Prioritize Tests | TestPilot AI{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-2">
+
+  <!-- Header Section -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center pb-2 mb-3 border-bottom">
+    <div>
+      <h5 class="fw-bold mb-1" style="color: var(--tp-text-main);">
+        <i class="bi bi-play-circle-fill text-primary me-2"></i>Prioritize Test Suite
+      </h5>
+      <p class="text-muted small mb-0">
+        Select test data, set a time budget, and execute machine learning risk-driven ranking.
+      </p>
+    </div>
+    <div class="mt-2 mt-md-0 d-flex align-items-center gap-2">
+      <span class="badge bg-light text-dark border">
+        <i class="bi bi-database me-1"></i> TCP-CI Benchmark (8,958 tests)
+      </span>
+      <span class="badge bg-light text-dark border">
+        <i class="bi bi-cpu me-1"></i> 5 ML Models Loaded
+      </span>
+    </div>
+  </div>
+
+  <!-- Main Workspace Grid: Config (Left) and Results (Right) -->
+  <div class="row g-3">
+    
+    <!-- LEFT PANEL: Test Suite Source & Configuration (col-lg-4) -->
+    <div class="col-lg-4 col-xl-4">
+      <div class="card-tp mb-3">
+        <div class="card-header-tp">
+          <h6 class="card-title-tp">
+            <i class="bi bi-sliders2 text-primary"></i> 1. Test Suite Input
+          </h6>
+          <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.7rem;">Source</span>
+        </div>
+        <div class="card-body-tp">
+          
+          <!-- Source Toggle -->
+          <div class="btn-group w-100 mb-3" role="group">
+            <input type="radio" class="btn-check" name="input_source" id="source_benchmark" value="benchmark" checked autocomplete="off">
+            <label class="btn btn-outline-secondary btn-sm fw-semibold" for="source_benchmark">
+              <i class="bi bi-archive me-1"></i> Benchmark Build
+            </label>
+
+            <input type="radio" class="btn-check" name="input_source" id="source_upload" value="upload" autocomplete="off">
+            <label class="btn btn-outline-secondary btn-sm fw-semibold" for="source_upload">
+              <i class="bi bi-upload me-1"></i> Upload Custom CSV
+            </label>
+          </div>
+
+          <!-- Benchmark Controls -->
+          <div id="benchmarkInputs">
+            <div class="mb-3">
+              <label for="projectSelect" class="form-label-tp">Project</label>
+              <select class="form-select form-select-tp" id="projectSelect">
+                {% for proj in projects %}
+                  <option value="{{ proj }}">{{ proj }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="buildSelect" class="form-label-tp">Build Sequence</label>
+              <select class="form-select form-select-tp" id="buildSelect">
+                <!-- Dynamically populated via JS -->
+              </select>
+            </div>
+
+            <div id="buildSummaryBox" class="p-2 rounded bg-light border text-muted small mb-1">
+              <span id="buildSummaryText"><i class="bi bi-info-circle me-1"></i> Loading build metadata...</span>
+            </div>
+          </div>
+
+          <!-- Upload Controls -->
+          <div id="uploadInputs" style="display: none;">
+            <div class="mb-2">
+              <label for="csvFileInput" class="form-label-tp">Select Test Case CSV</label>
+              <input class="form-control form-control-tp" type="file" id="csvFileInput" accept=".csv">
+              <div class="form-text" style="font-size: 0.72rem;">
+                Requires <code>test_id</code> and <code>avg_recent_duration</code>.
+              </div>
+            </div>
+
+            <div id="uploadFeedback" class="small mt-2" style="display: none;"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Strategy & Budget Config -->
+      <div class="card-tp">
+        <div class="card-header-tp">
+          <h6 class="card-title-tp">
+            <i class="bi bi-gear-wide-connected text-primary"></i> 2. Ranking &amp; Budget
+          </h6>
+          <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.7rem;">Parameters</span>
+        </div>
+        <div class="card-body-tp">
+          
+          <!-- Strategy Dropdown -->
+          <div class="mb-3">
+            <label for="strategySelect" class="form-label-tp">Ranking Strategy</label>
+            <select class="form-select form-select-tp" id="strategySelect">
+              <option value="ml_value_density" selected>ML Value-Density: P(fail) / duration^α</option>
+              <option value="ml_risk_only">ML Pure Risk: P(fail)</option>
+              <option value="ml_ltr">Learning-to-Rank (LambdaMART)</option>
+              <option value="fastest_first">Fastest-First: 1 / duration</option>
+              <option value="historical">Historical Failure Rate</option>
+              <option value="random">Random Ordering Baseline</option>
+            </select>
+          </div>
+
+          <!-- Model Selector (conditional) -->
+          <div class="mb-3" id="modelSelectContainer">
+            <label for="modelSelect" class="form-label-tp">Machine Learning Model</label>
+            <select class="form-select form-select-tp" id="modelSelect">
+              <option value="xgboost" selected>XGBoost (Champion · Val PR-AUC 0.2105)</option>
+              <option value="random_forest">Random Forest</option>
+              <option value="logistic_regression">Logistic Regression</option>
+              <option value="mlp_neural_net">MLP Neural Network</option>
+            </select>
+          </div>
+
+          <!-- Time Budget Selection -->
+          <div class="mb-3">
+            <label class="form-label-tp d-flex justify-content-between">
+              <span>Testing Time Budget</span>
+              <span id="budgetTextDisplay" class="text-primary font-mono fw-semibold">300s (5.0m)</span>
+            </label>
+            <div class="btn-group w-100 mb-2 budget-btn-group" role="group">
+              <input type="radio" class="btn-check" name="budget_preset" id="budget_300" value="300" checked autocomplete="off">
+              <label class="btn btn-budget" for="budget_300">5 min</label>
+
+              <input type="radio" class="btn-check" name="budget_preset" id="budget_600" value="600" autocomplete="off">
+              <label class="btn btn-budget" for="budget_600">10 min</label>
+
+              <input type="radio" class="btn-check" name="budget_preset" id="budget_1200" value="1200" autocomplete="off">
+              <label class="btn btn-budget" for="budget_1200">20 min</label>
+
+              <input type="radio" class="btn-check" name="budget_preset" id="budget_custom" value="custom" autocomplete="off">
+              <label class="btn btn-budget" for="budget_custom">Custom</label>
+            </div>
+
+            <div id="customBudgetContainer" style="display: none;">
+              <div class="input-group input-group-sm">
+                <input type="number" class="form-control form-control-tp" id="customBudgetSeconds" value="300" min="5" max="7200" step="15">
+                <span class="input-group-text bg-light text-muted">seconds</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alpha Duration Sensitivity Slider -->
+          <div class="mb-3" id="alphaContainer">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <label for="alphaSlider" class="form-label-tp mb-0">Duration Sensitivity (α)</label>
+              <span class="badge bg-light text-dark border font-mono" id="alphaValBadge">1.0</span>
+            </div>
+            <input type="range" class="form-range" id="alphaSlider" min="0.5" max="2.0" step="0.1" value="1.0">
+            <div class="d-flex justify-content-between text-muted" style="font-size: 0.68rem;">
+              <span>0.5 (Lenient)</span>
+              <span>1.0 (Balanced)</span>
+              <span>2.0 (Strict duration penalty)</span>
+            </div>
+          </div>
+
+          <!-- Action Button -->
+          <button type="button" class="btn btn-tp-primary w-100 py-2 mt-2" id="prioritizeBtn">
+            <span id="btnSpinner" class="spinner-border spinner-border-sm me-1" role="status" style="display: none;"></span>
+            <i class="bi bi-lightning-charge-fill me-1" id="btnIcon"></i>
+            <span id="btnLabel">Prioritize Tests</span>
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: Generated Execution Schedule (col-lg-8) -->
+    <div class="col-lg-8 col-xl-8">
+      
+      <!-- Placeholder / Empty State -->
+      <div class="card-tp" id="emptyStateCard">
+        <div class="card-body-tp empty-state-box">
+          <div class="empty-state-icon">
+            <i class="bi bi-clock-history"></i>
+          </div>
+          <h6 class="fw-bold text-dark">No Prioritization Schedule Generated Yet</h6>
+          <p class="text-muted small mx-auto" style="max-width: 420px;">
+            Select a benchmark build or upload a custom test suite CSV, configure your time budget, and click <strong>Prioritize Tests</strong> to run the real pipeline.
+          </p>
+        </div>
+      </div>
+
+      <!-- Schedule Results Container (Initially hidden) -->
+      <div id="resultsCard" style="display: none;">
+        
+        <!-- Summary Banner -->
+        <div class="card-tp mb-3">
+          <div class="card-body-tp py-2 px-3 bg-white">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
+              <div>
+                <span class="badge bg-primary me-2" id="resStrategyBadge">Strategy</span>
+                <span class="small text-muted" id="resExplanation">Explanation text</span>
+              </div>
+              <div class="small font-mono text-muted text-nowrap">
+                <i class="bi bi-stopwatch me-1"></i><span id="resExecTime">--</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KPI Metrics Grid -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-card-label">Scheduled Tests</div>
+            <div class="kpi-card-value" id="kpiScheduledCount">--</div>
+            <div class="kpi-card-sub" id="kpiScheduledPct">--% included</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-card-label">Estimated Runtime</div>
+            <div class="kpi-card-value font-mono" id="kpiRuntime">--s</div>
+            <div class="kpi-card-sub" id="kpiBudgetLabel">of --s budget</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-card-label">Budget Left</div>
+            <div class="kpi-card-value font-mono" id="kpiBudgetLeft">--s</div>
+            <div class="kpi-card-sub" id="kpiUtilPct">--% utilized</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-card-label">Tests Excluded</div>
+            <div class="kpi-card-value text-danger font-mono" id="kpiExcludedCount">--</div>
+            <div class="kpi-card-sub">Exceeded budget</div>
+          </div>
+
+          <div class="kpi-card" id="kpiRecallCard" style="display: none;">
+            <div class="kpi-card-label">Defect Recall</div>
+            <div class="kpi-card-value text-success font-mono" id="kpiRecallValue">--</div>
+            <div class="kpi-card-sub" id="kpiRecallSub">Known failures found</div>
+          </div>
+        </div>
+
+        <!-- Budget Progress Bar -->
+        <div class="card-tp p-3 mb-3 bg-white">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <span class="small fw-semibold text-muted">Budget Allocation</span>
+            <span class="small font-mono fw-bold text-dark" id="budgetProgressLabel">0s / 300s (0%)</span>
+          </div>
+          <div class="progress-tp">
+            <div class="progress-tp-bar" id="budgetProgressBar" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Table Toolbar & Schedule Card -->
+        <div class="card-tp">
+          <div class="card-header-tp py-2 flex-wrap gap-2">
+            <div class="d-flex align-items-center gap-2">
+              <span class="fw-bold text-dark small">
+                <i class="bi bi-list-ol text-primary me-1"></i> Prioritized Test Order
+              </span>
+              <!-- Filter Buttons -->
+              <div class="btn-group btn-group-sm" role="group">
+                <button type="button" class="btn btn-outline-secondary active btn-tp-sm" id="btnFilterAll" onclick="filterTable('all')">
+                  All (<span id="countAll">0</span>)
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-tp-sm" id="btnFilterQueued" onclick="filterTable('queued')">
+                  Queued (<span id="countQueued">0</span>)
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-tp-sm" id="btnFilterExcluded" onclick="filterTable('excluded')">
+                  Excluded (<span id="countExcluded">0</span>)
+                </button>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+              <div class="input-group input-group-sm" style="width: 180px;">
+                <span class="input-group-text bg-white border-end-0 py-0 text-muted"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control form-control-tp border-start-0 py-0" id="tableSearchInput" placeholder="Search test..." onkeyup="searchTable()">
+              </div>
+              <button type="button" class="btn btn-tp-secondary btn-tp-sm" id="exportCsvBtn" onclick="exportScheduleCSV()">
+                <i class="bi bi-download me-1"></i> Download CSV
+              </button>
+            </div>
+          </div>
+
+          <!-- Schedule Table -->
+          <div class="table-responsive" style="max-height: 520px; overflow-y: auto;">
+            <table class="table table-tp" id="scheduleTable">
+              <thead>
+                <tr>
+                  <th style="width: 60px;">Rank</th>
+                  <th>Test Identifier</th>
+                  <th style="width: 100px;">Priority</th>
+                  <th style="width: 90px;">Risk P(fail)</th>
+                  <th style="width: 85px;">Duration</th>
+                  <th style="width: 90px;">Cumul. Time</th>
+                  <th style="width: 85px;">Status</th>
+                  <th>Supporting Evidence</th>
+                  <th style="width: 80px;" id="thVerdict" style="display: none;">Verdict</th>
+                </tr>
+              </thead>
+              <tbody id="scheduleTableBody">
+                <!-- Dynamically populated rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% endblock %}

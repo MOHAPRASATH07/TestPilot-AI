@@ -1,0 +1,11 @@
+project_id,build_id,test_id,historical_fail_rate,failures_last_5,failures_last_10,total_historical_runs,builds_since_last_fail,avg_recent_duration,test_age_builds,test_loc,changed_files_count,code_churn_additions,code_churn_deletions,modified_test_file,file_test_distance,cov_class_count,cov_method_count,w_sum_cov_c_faults,duration,verdict
+apache-commons-lang,1,apache-commons-lang.TestCore_01,0.0,0,0,0,999,13.428,0,28,3,21,23,0,0.9296,4,18,0.0,14.562,0
+apache-commons-lang,1,apache-commons-lang.TestCore_04,0.0,0,0,0,999,30.521,0,83,3,21,23,0,0.7719,10,30,0.0,31.759,0
+apache-commons-lang,1,apache-commons-lang.TestUtil_06,0.0,0,0,0,999,5.756,0,59,3,21,23,1,0.3751,5,14,0.0,6.408,0
+apache-commons-lang,1,apache-commons-lang.TestIntegration_02,0.0,0,0,0,999,7.534,0,102,3,21,23,0,0.3463,6,33,0.0,5.694,0
+apache-commons-lang,1,apache-commons-lang.TestIntegration_08,0.0,0,0,0,999,12.189,0,550,3,21,23,1,0.2558,10,30,0.0,9.151,0
+apache-commons-lang,1,apache-commons-lang.TestSecurity_08,0.0,0,0,0,999,1.882,0,57,3,21,23,1,0.2085,9,23,0.0,2.118,0
+apache-commons-lang,2,apache-commons-lang.TestCore_01,0.0,0,0,1,999,14.562,1,28,5,81,36,0,0.4643,4,18,0.0,13.243,0
+apache-commons-lang,2,apache-commons-lang.TestCore_04,0.0,0,0,1,999,31.759,1,83,5,81,36,0,0.76,10,30,0.0,33.639,0
+apache-commons-lang,2,apache-commons-lang.TestCore_08,0.0,0,0,0,999,16.676,0,22,5,81,36,0,0.4879,3,12,0.0,15.86,0
+apache-commons-lang,2,apache-commons-lang.TestCore_09,0.0,0,0,0,999,6.199,0,41,5,81,36,0,0.473,7,41,0.0,6.97,0

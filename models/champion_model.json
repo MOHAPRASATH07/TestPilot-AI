@@ -1,0 +1,7 @@
+{
+  "champion_model_key": "xgboost",
+  "champion_model_name": "XGBoost",
+  "selection_metric": "validation_pr_auc",
+  "validation_pr_auc": 0.2105,
+  "selection_rule": "Selected strictly on validation split without inspecting held-out test data."
+}

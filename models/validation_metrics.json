@@ -1,0 +1,57 @@
+{
+  "logistic_regression": {
+    "model_name": "Logistic Regression",
+    "metrics": {
+      "precision": 0.256,
+      "recall": 0.1992,
+      "f1": 0.2241,
+      "roc_auc": 0.6153,
+      "pr_auc": 0.2054,
+      "brier_score": 0.1599
+    }
+  },
+  "random_forest": {
+    "model_name": "Random Forest",
+    "metrics": {
+      "precision": 1.0,
+      "recall": 0.0038,
+      "f1": 0.0075,
+      "roc_auc": 0.6005,
+      "pr_auc": 0.1883,
+      "brier_score": 0.1204
+    }
+  },
+  "xgboost": {
+    "model_name": "XGBoost",
+    "metrics": {
+      "precision": 0.2588,
+      "recall": 0.1654,
+      "f1": 0.2018,
+      "roc_auc": 0.596,
+      "pr_auc": 0.2105,
+      "brier_score": 0.16
+    }
+  },
+  "mlp_neural_net": {
+    "model_name": "Multilayer Perceptron (MLP)",
+    "metrics": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "roc_auc": 0.5674,
+      "pr_auc": 0.1809,
+      "brier_score": 0.1221
+    }
+  },
+  "ltr_lambdamart": {
+    "model_name": "Learning-to-Rank (LambdaMART)",
+    "metrics": {
+      "precision": 0.2031,
+      "recall": 0.2932,
+      "f1": 0.24,
+      "roc_auc": 0.5958,
+      "pr_auc": 0.1895,
+      "brier_score": 0.1965
+    }
+  }
+}

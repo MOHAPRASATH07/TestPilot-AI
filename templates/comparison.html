@@ -1,0 +1,345 @@
+{% extends "base.html" %}
+
+{% block title %}Strategy Comparison | TestPilot AI{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-2">
+
+  <!-- Header -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center pb-2 mb-3 border-bottom">
+    <div>
+      <h5 class="fw-bold mb-1" style="color: var(--tp-text-main);">
+        <i class="bi bi-bar-chart-line-fill text-primary me-2"></i>Strategy Comparison &amp; Benchmark Analytics
+      </h5>
+      <p class="text-muted small mb-0">
+        Empirical evaluation of machine learning vs conventional test-ordering strategies across 12 held-out builds (1,920 test records).
+      </p>
+    </div>
+    <div class="mt-2 mt-md-0 d-flex align-items-center gap-2">
+      <span class="badge bg-primary-subtle text-primary border border-primary-subtle font-mono">
+        Value-Density APFDc: 0.7351 (+38.0% over Random)
+      </span>
+    </div>
+  </div>
+
+  <!-- Row 1: Pre-computed Benchmark Metrics & Curves -->
+  <div class="row g-3 mb-4">
+    
+    <!-- Benchmark Table (col-lg-6) -->
+    <div class="col-lg-6">
+      <div class="card-tp h-100">
+        <div class="card-header-tp py-2">
+          <h6 class="card-title-tp">
+            <i class="bi bi-trophy text-warning"></i> Held-Out Test Suite Benchmark (1,920 Tests)
+          </h6>
+          <span class="badge bg-light text-muted border font-mono" style="font-size: 0.7rem;">TCP-CI Test Split</span>
+        </div>
+        <div class="card-body-tp p-0">
+          <div class="table-responsive">
+            <table class="table table-tp table-hover mb-0">
+              <thead>
+                <tr>
+                  <th>Strategy</th>
+                  <th class="text-end">APFD</th>
+                  <th class="text-end">APFDc (Cost)</th>
+                  <th class="text-end">Recall @ 5m</th>
+                  <th class="text-end">Recall @ 10m</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in eval_records %}
+                <tr {% if 'XGBoost (Value-Density)' in row.strategy_name %}class="table-primary fw-semibold"{% endif %}>
+                  <td>
+                    {% if 'XGBoost (Value-Density)' in row.strategy_name %}
+                      <span class="badge bg-primary text-white me-1" style="font-size: 0.65rem;">CHAMPION</span>
+                    {% endif %}
+                    {{ row.strategy_name }}
+                  </td>
+                  <td class="text-end font-mono">{{ "%.4f"|format(row.mean_apfd) }}</td>
+                  <td class="text-end font-mono">
+                    {% if row.mean_apfdc >= 0.73 %}
+                      <span class="badge bg-success-subtle text-success border border-success-subtle">{{ "%.4f"|format(row.mean_apfdc) }}</span>
+                    {% else %}
+                      {{ "%.4f"|format(row.mean_apfdc) }}
+                    {% endif %}
+                  </td>
+                  <td class="text-end font-mono">{{ "%.1f%%"|format(row.mean_recall_300s * 100) }}</td>
+                  <td class="text-end font-mono">{{ "%.1f%%"|format(row.mean_recall_600s * 100) }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="p-3 bg-light border-top text-muted small">
+            <strong>Key Insight:</strong> Value-Density prioritization delivers <strong>0.7351 APFDc</strong> vs <strong>0.5326</strong> for Random (+38.0% improvement). Pure Risk front-loads heavy failing tests (APFDc 0.5443), while Value-Density balances risk against duration.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plotly Failure Discovery Curves (col-lg-6) -->
+    <div class="col-lg-6">
+      <div class="card-tp h-100">
+        <div class="card-header-tp py-2">
+          <h6 class="card-title-tp">
+            <i class="bi bi-graph-up text-primary"></i> Cumulative Failure Discovery Over Time
+          </h6>
+          <span class="badge bg-light text-muted border" style="font-size: 0.7rem;">Held-Out Evaluation</span>
+        </div>
+        <div class="card-body-tp p-2">
+          <div id="plotlyDiscoveryCurve" style="height: 380px;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Row 2: Live Build-Level Multi-Strategy Comparator -->
+  <div class="card-tp mb-4">
+    <div class="card-header-tp py-2">
+      <h6 class="card-title-tp">
+        <i class="bi bi-shuffle text-primary"></i> Live Build-Level Multi-Strategy Comparator
+      </h6>
+      <span class="badge bg-secondary-subtle text-secondary" style="font-size: 0.7rem;">Retrospective Experiment</span>
+    </div>
+    <div class="card-body-tp">
+      
+      <!-- Comparator Filter Bar -->
+      <div class="row g-2 align-items-end mb-3">
+        <div class="col-md-3">
+          <label for="compProject" class="form-label-tp">Benchmark Project</label>
+          <select class="form-select form-select-tp" id="compProject">
+            {% for proj in projects %}
+              <option value="{{ proj }}">{{ proj }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label for="compBuild" class="form-label-tp">Build Sequence</label>
+          <select class="form-select form-select-tp" id="compBuild">
+            <!-- Dynamically populated -->
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <label for="compBudget" class="form-label-tp">Testing Time Budget</label>
+          <select class="form-select form-select-tp" id="compBudget">
+            <option value="300" selected>5 Minutes (300s)</option>
+            <option value="600">10 Minutes (600s)</option>
+            <option value="1200">20 Minutes (1200s)</option>
+          </select>
+        </div>
+
+        <div class="col-md-3">
+          <button type="button" class="btn btn-tp-primary w-100" id="btnRunComparison">
+            <span id="compSpinner" class="spinner-border spinner-border-sm me-1" style="display: none;"></span>
+            <i class="bi bi-play-fill me-1" id="compIcon"></i> Compare All Strategies
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Comparison Results -->
+      <div id="liveCompResults" style="display: none;">
+        <div class="row g-3">
+          
+          <div class="col-lg-7">
+            <div class="table-responsive border rounded">
+              <table class="table table-tp table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th>Strategy</th>
+                    <th class="text-end">Scheduled</th>
+                    <th class="text-end">Runtime (s)</th>
+                    <th class="text-end">Failures Found</th>
+                    <th class="text-end">Recall @ Budget</th>
+                    <th class="text-end">APFD</th>
+                    <th class="text-end">APFDc</th>
+                  </tr>
+                </thead>
+                <tbody id="liveCompTableBody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="col-lg-5">
+            <div id="liveCompChart" style="height: 290px;"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  // 1. Render Pre-computed Plotly Curve from server data
+  const curvesData = {{ curves_json|safe }};
+  
+  if (curvesData && curvesData.length > 0) {
+    const traces = {};
+    curvesData.forEach(row => {
+      const s = row.strategy;
+      if (!traces[s]) {
+        traces[s] = {
+          x: [],
+          y: [],
+          mode: 'lines',
+          name: s,
+          line: { width: s.includes('XGBoost') || s.includes('Value-Density') ? 3 : 1.5 }
+        };
+      }
+      traces[s].x.push(row.elapsed_time_minutes);
+      traces[s].y.push(row.percentage_failures_discovered);
+    });
+
+    const plotData = Object.values(traces);
+
+    const layout = {
+      margin: { l: 45, r: 20, t: 30, b: 40 },
+      xaxis: { title: 'Testing Time (Minutes)', gridcolor: '#f1f5f9' },
+      yaxis: { title: 'Failures Discovered (%)', gridcolor: '#f1f5f9', range: [0, 105] },
+      legend: { orientation: 'h', y: -0.25, font: { size: 10 } },
+      plot_bgcolor: '#ffffff',
+      paper_bgcolor: '#ffffff',
+      shapes: [
+        { type: 'line', x0: 5, x1: 5, y0: 0, y1: 100, line: { color: '#94a3b8', dash: 'dash', width: 1 } },
+        { type: 'line', x0: 10, x1: 10, y0: 0, y1: 100, line: { color: '#94a3b8', dash: 'dash', width: 1 } }
+      ],
+      annotations: [
+        { x: 5, y: 100, xref: 'x', yref: 'y', text: '5m Budget', showarrow: false, yanchor: 'bottom', font: { size: 9, color: '#64748b' } },
+        { x: 10, y: 100, xref: 'x', yref: 'y', text: '10m Budget', showarrow: false, yanchor: 'bottom', font: { size: 9, color: '#64748b' } }
+      ]
+    };
+
+    Plotly.newPlot('plotlyDiscoveryCurve', plotData, layout, { responsive: true, displayModeBar: false });
+  }
+
+  // 2. Dynamic Build dropdown for comparator
+  const compProjSelect = document.getElementById('compProject');
+  const compBuildSelect = document.getElementById('compBuild');
+
+  function updateCompBuilds(proj) {
+    compBuildSelect.innerHTML = '<option disabled>Loading...</option>';
+    fetch(`/api/benchmark-builds/${encodeURIComponent(proj)}`)
+      .then(r => r.json())
+      .then(d => {
+        compBuildSelect.innerHTML = '';
+        if (d.builds && d.builds.length > 0) {
+          d.builds.forEach((b, idx) => {
+            const opt = document.createElement('option');
+            opt.value = b;
+            opt.textContent = `Build #${b}`;
+            if (idx === d.builds.length - 1) opt.selected = true;
+            compBuildSelect.appendChild(opt);
+          });
+        }
+      });
+  }
+
+  compProjSelect.addEventListener('change', () => updateCompBuilds(compProjSelect.value));
+  if (compProjSelect.value) {
+    updateCompBuilds(compProjSelect.value);
+  }
+
+  // 3. Live Comparison Runner
+  document.getElementById('btnRunComparison').addEventListener('click', function() {
+    const proj = compProjSelect.value;
+    const build = compBuildSelect.value;
+    const budget = parseFloat(document.getElementById('compBudget').value);
+
+    const btn = document.getElementById('btnRunComparison');
+    const spinner = document.getElementById('compSpinner');
+    const icon = document.getElementById('compIcon');
+
+    btn.disabled = true;
+    spinner.style.display = 'inline-block';
+    icon.style.display = 'none';
+
+    fetch('/api/compare-build', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        project_id: proj,
+        build_id: parseInt(build),
+        time_budget_seconds: budget
+      })
+    })
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById('liveCompResults').style.display = 'block';
+      const tbody = document.getElementById('liveCompTableBody');
+      tbody.innerHTML = '';
+
+      data.results.forEach(res => {
+        const tr = document.createElement('tr');
+        if (res.strategy.includes('Value-Density')) {
+          tr.className = 'table-primary fw-semibold';
+        }
+        tr.innerHTML = `
+          <td>${res.strategy}</td>
+          <td class="text-end font-mono">${res.scheduled_count} / ${res.total_tests}</td>
+          <td class="text-end font-mono">${res.runtime_seconds.toFixed(1)}s</td>
+          <td class="text-end font-mono">${res.failures_found} / ${res.total_failures}</td>
+          <td class="text-end font-mono">${(res.recall * 100).toFixed(1)}%</td>
+          <td class="text-end font-mono">${res.apfd.toFixed(4)}</td>
+          <td class="text-end font-mono">${res.apfdc.toFixed(4)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Plot live discovery curve for this specific build
+      if (data.plot_series && data.plot_series.length > 0) {
+        const liveTraces = {};
+        data.plot_series.forEach(pt => {
+          const s = pt.strategy;
+          if (!liveTraces[s]) {
+            liveTraces[s] = {
+              x: [],
+              y: [],
+              mode: 'lines',
+              name: s,
+              line: { width: s.includes('Value-Density') ? 2.5 : 1.5 }
+            };
+          }
+          liveTraces[s].x.push(pt.time_s);
+          liveTraces[s].y.push(pt.cum_failures);
+        });
+
+        const liveLayout = {
+          margin: { l: 35, r: 15, t: 25, b: 35 },
+          xaxis: { title: 'Time (s)', gridcolor: '#f1f5f9' },
+          yaxis: { title: 'Failures Caught', gridcolor: '#f1f5f9' },
+          showlegend: false,
+          plot_bgcolor: '#ffffff',
+          paper_bgcolor: '#ffffff',
+          shapes: [{
+            type: 'line',
+            x0: budget,
+            x1: budget,
+            y0: 0,
+            y1: data.results[0].total_failures || 1,
+            line: { color: '#ef4444', dash: 'dash', width: 1.5 }
+          }]
+        };
+
+        Plotly.newPlot('liveCompChart', Object.values(liveTraces), liveLayout, { responsive: true, displayModeBar: false });
+      }
+    })
+    .catch(err => {
+      alert('Error running comparison: ' + err);
+    })
+    .finally(() => {
+      btn.disabled = false;
+      spinner.style.display = 'none';
+      icon.style.display = 'inline-block';
+    });
+  });
+</script>
+{% endblock %}

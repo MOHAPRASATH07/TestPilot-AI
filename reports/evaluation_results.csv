@@ -1,0 +1,10 @@
+strategy,mean_apfd,std_apfd,mean_apfdc,std_apfdc,mean_recall_300s,std_recall_300s,mean_recall_600s,std_recall_600s,mean_recall_1200s,std_recall_1200s,strategy_name
+random,0.5153,0.0527,0.5326,0.0641,0.6817,0.0918,1.0,0.0,1.0,0.0,Baseline A: Random Ordering
+fastest_first,0.5162,0.0,0.739,0.0,0.9129,0.0,1.0,0.0,1.0,0.0,Baseline B: Fastest-First
+historical,0.6221,0.0,0.593,0.0,0.6764,0.0,1.0,0.0,1.0,0.0,Baseline C: Historical Prioritization
+ml_value_density,0.5409,0.0,0.7454,0.0,0.9117,0.0,1.0,0.0,1.0,0.0,ML: Logistic Regression (Value-Density)
+ml_value_density,0.5227,0.0,0.7319,0.0,0.909,0.0,1.0,0.0,1.0,0.0,ML: Random Forest (Value-Density)
+ml_value_density,0.5243,0.0,0.7351,0.0,0.9056,0.0,1.0,0.0,1.0,0.0,ML: XGBoost (Value-Density)
+ml_risk_only,0.5592,0.0,0.5443,0.0,0.7094,0.0,1.0,0.0,1.0,0.0,ML: XGBoost (Pure Risk)
+ml_value_density,0.5481,0.0,0.743,0.0,0.942,0.0,1.0,0.0,1.0,0.0,ML: MLP Neural Net (Value-Density)
+ml_ltr,0.5718,0.0,0.5913,0.0,0.7495,0.0,1.0,0.0,1.0,0.0,ML: Learning-to-Rank (LambdaMART)

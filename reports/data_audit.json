@@ -1,0 +1,271 @@
+{
+  "dataset_path": "data\\benchmark_tcp_ci.csv",
+  "file_size_mb": 0.986,
+  "row_count": 8958,
+  "column_count": 21,
+  "duplicate_rows": 0,
+  "duplicate_test_builds": 0,
+  "projects": [
+    "apache-commons-lang",
+    "google-guava",
+    "square-retrofit",
+    "alibaba-fastjson"
+  ],
+  "builds_per_project": {
+    "apache-commons-lang": 60,
+    "google-guava": 60,
+    "square-retrofit": 59,
+    "alibaba-fastjson": 60
+  },
+  "total_unique_builds": 239,
+  "class_distribution": {
+    "pass_records": 8136,
+    "fail_records": 822,
+    "fail_rate_percentage": 9.18,
+    "total_builds": 239,
+    "failed_builds": 135,
+    "failed_build_percentage": 56.49
+  },
+  "duration_statistics": {
+    "min_seconds": 0.554,
+    "mean_seconds": 11.359,
+    "median_seconds": 7.133,
+    "p75_seconds": 12.68,
+    "p90_seconds": 23.616,
+    "p95_seconds": 36.637,
+    "max_seconds": 117.268,
+    "total_test_hours": 28.26
+  },
+  "missing_values": {
+    "project_id": 0,
+    "build_id": 0,
+    "test_id": 0,
+    "historical_fail_rate": 0,
+    "failures_last_5": 0,
+    "failures_last_10": 0,
+    "total_historical_runs": 0,
+    "builds_since_last_fail": 0,
+    "avg_recent_duration": 0,
+    "test_age_builds": 0,
+    "test_loc": 0,
+    "changed_files_count": 0,
+    "code_churn_additions": 0,
+    "code_churn_deletions": 0,
+    "modified_test_file": 0,
+    "file_test_distance": 0,
+    "cov_class_count": 0,
+    "cov_method_count": 0,
+    "w_sum_cov_c_faults": 0,
+    "duration": 0,
+    "verdict": 0
+  },
+  "missing_percentages": {
+    "project_id": 0.0,
+    "build_id": 0.0,
+    "test_id": 0.0,
+    "historical_fail_rate": 0.0,
+    "failures_last_5": 0.0,
+    "failures_last_10": 0.0,
+    "total_historical_runs": 0.0,
+    "builds_since_last_fail": 0.0,
+    "avg_recent_duration": 0.0,
+    "test_age_builds": 0.0,
+    "test_loc": 0.0,
+    "changed_files_count": 0.0,
+    "code_churn_additions": 0.0,
+    "code_churn_deletions": 0.0,
+    "modified_test_file": 0.0,
+    "file_test_distance": 0.0,
+    "cov_class_count": 0.0,
+    "cov_method_count": 0.0,
+    "w_sum_cov_c_faults": 0.0,
+    "duration": 0.0,
+    "verdict": 0.0
+  },
+  "column_datatypes": {
+    "project_id": "object",
+    "build_id": "int64",
+    "test_id": "object",
+    "historical_fail_rate": "float64",
+    "failures_last_5": "int64",
+    "failures_last_10": "int64",
+    "total_historical_runs": "int64",
+    "builds_since_last_fail": "int64",
+    "avg_recent_duration": "float64",
+    "test_age_builds": "int64",
+    "test_loc": "int64",
+    "changed_files_count": "int64",
+    "code_churn_additions": "int64",
+    "code_churn_deletions": "int64",
+    "modified_test_file": "int64",
+    "file_test_distance": "float64",
+    "cov_class_count": "int64",
+    "cov_method_count": "int64",
+    "w_sum_cov_c_faults": "float64",
+    "duration": "float64",
+    "verdict": "int64"
+  },
+  "leakage_analysis": {
+    "identifiers_kept_out_of_features": [
+      "project_id",
+      "build_id",
+      "test_id"
+    ],
+    "post_execution_outcomes_isolated": [
+      "duration",
+      "verdict"
+    ],
+    "valid_pre_execution_features": [
+      "historical_fail_rate",
+      "failures_last_5",
+      "failures_last_10",
+      "total_historical_runs",
+      "builds_since_last_fail",
+      "avg_recent_duration",
+      "changed_files_count",
+      "code_churn_additions",
+      "code_churn_deletions",
+      "modified_test_file",
+      "file_test_distance",
+      "test_age_builds",
+      "test_loc",
+      "cov_class_count",
+      "cov_method_count",
+      "w_sum_cov_c_faults"
+    ],
+    "target_leakage_safeguards": [
+      "'verdict' is isolated exclusively as the retrospective target ground-truth.",
+      "'duration' is isolated as retrospective cost; pre-execution prioritization uses 'avg_recent_duration'.",
+      "No future build metrics are aggregated or accessible to earlier builds."
+    ],
+    "chronological_evaluation_supported": true
+  },
+  "data_dictionary": {
+    "project_id": {
+      "category": "Identifier",
+      "type": "object",
+      "leakage_safe": true,
+      "description": "Software project or repository identifier"
+    },
+    "build_id": {
+      "category": "Identifier",
+      "type": "int64",
+      "leakage_safe": true,
+      "description": "Monotonically increasing CI build sequence number"
+    },
+    "test_id": {
+      "category": "Identifier",
+      "type": "object",
+      "leakage_safe": true,
+      "description": "Test case class or method identifier"
+    },
+    "historical_fail_rate": {
+      "category": "REC",
+      "type": "float64",
+      "leakage_safe": true,
+      "description": "Historical failure frequency across past builds"
+    },
+    "failures_last_5": {
+      "category": "REC",
+      "type": "int64",
+      "leakage_safe": true,
+      "description": "Number of test failures in past 5 builds"
+    },
+    "failures_last_10": {
+      "category": "REC",
+      "type": "int64",
+      "leakage_safe": true,
+      "description": "Number of test failures in past 10 builds"
+    },
+    "total_historical_runs": {
+      "category": "REC",
+      "type": "int64",
+      "leakage_safe": true,
+      "description": "Total historical executions of this test case"
+    },
+    "builds_since_last_fail": {
+      "category": "REC",
+      "type": "int64",
+      "leakage_safe": true,
+      "description": "Builds elapsed since previous observed failure"
+    },
+    "avg_recent_duration": {
+      "category": "REC",
+      "type": "float64",
+      "leakage_safe": true,
+      "description": "Estimated duration based on moving average of recent runs (s)"
+    },
+    "test_age_builds": {
+      "category": "TES",
+      "type": "int64",
+      "leakage_safe": true,
+      "description": "Number of builds since test was added to test suite"
+    },
+    "test_loc": {
+      "category": "TES",
+      "type": "int64",
+      "leakage_safe": true,
+      "description": "Source lines of code in test case"
+    },
+    "changed_files_count": {
+      "category": "CHG",
+      "type": "int64",
+      "leakage_safe": true,
+      "description": "Count of modified files in the triggering commit"
+    },
+    "code_churn_additions": {
+      "category": "CHG",
+      "type": "int64",
+      "leakage_safe": true,
+      "description": "Lines of code added in triggering commit"
+    },
+    "code_churn_deletions": {
+      "category": "CHG",
+      "type": "int64",
+      "leakage_safe": true,
+      "description": "Lines of code deleted in triggering commit"
+    },
+    "modified_test_file": {
+      "category": "CHG",
+      "type": "int64",
+      "leakage_safe": true,
+      "description": "Binary flag indicating if test file itself was edited"
+    },
+    "file_test_distance": {
+      "category": "CHG",
+      "type": "float64",
+      "leakage_safe": true,
+      "description": "Syntactic/package distance between changed code and test"
+    },
+    "cov_class_count": {
+      "category": "COV",
+      "type": "int64",
+      "leakage_safe": true,
+      "description": "Classes covered by this test case"
+    },
+    "cov_method_count": {
+      "category": "COV",
+      "type": "int64",
+      "leakage_safe": true,
+      "description": "Methods covered by this test case"
+    },
+    "w_sum_cov_c_faults": {
+      "category": "COV",
+      "type": "float64",
+      "leakage_safe": true,
+      "description": "Weighted coverage-to-historical-fault correlation score"
+    },
+    "duration": {
+      "category": "Post-Execution",
+      "type": "float64",
+      "leakage_safe": false,
+      "description": "Actual test execution duration in seconds (Target Cost)"
+    },
+    "verdict": {
+      "category": "Post-Execution",
+      "type": "int64",
+      "leakage_safe": false,
+      "description": "Actual test outcome: 0 = Passed, 1 = Failed (Target Label)"
+    }
+  }
+}

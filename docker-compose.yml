@@ -1,0 +1,56 @@
+services:
+  web:
+    build: .
+    image: testpilot-ai-web:local
+    pull_policy: build
+    container_name: testpilot-web
+    command: python app_flask.py
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - HOST=0.0.0.0
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./models:/app/models
+      - ./reports:/app/reports
+      - ./data:/app/data
+    restart: unless-stopped
+
+  api:
+    build: .
+    image: testpilot-ai-api:local
+    pull_policy: build
+    container_name: testpilot-api
+    command: uvicorn api:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - HOST=0.0.0.0
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./models:/app/models
+      - ./reports:/app/reports
+      - ./data:/app/data
+    restart: unless-stopped
+
+  dashboard:
+    build: .
+    image: testpilot-ai-dashboard:local
+    pull_policy: build
+    container_name: testpilot-dashboard
+    command: streamlit run app.py --server.port=8501 --server.address=0.0.0.0
+    ports:
+      - "8501:8501"
+    environment:
+      - PORT=8501
+      - PYTHONUNBUFFERED=1
+      - API_URL=http://api:8000
+    depends_on:
+      - api
+    volumes:
+      - ./models:/app/models
+      - ./reports:/app/reports
+      - ./data:/app/data
+    restart: unless-stopped

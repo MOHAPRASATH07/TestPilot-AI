@@ -1,0 +1,178 @@
+{
+  "classification_metrics": {
+    "Logistic Regression": {
+      "precision": 0.2034,
+      "recall": 0.1182,
+      "f1": 0.1495,
+      "roc_auc": 0.559,
+      "pr_auc": 0.1485,
+      "brier_score": 0.134
+    },
+    "Random Forest": {
+      "precision": 1.0,
+      "recall": 0.0049,
+      "f1": 0.0098,
+      "roc_auc": 0.4554,
+      "pr_auc": 0.1019,
+      "brier_score": 0.1087
+    },
+    "XGBoost": {
+      "precision": 0.1245,
+      "recall": 0.1576,
+      "f1": 0.1391,
+      "roc_auc": 0.4844,
+      "pr_auc": 0.1113,
+      "brier_score": 0.1665
+    },
+    "Multilayer Perceptron (MLP)": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "roc_auc": 0.5281,
+      "pr_auc": 0.1206,
+      "brier_score": 0.0985
+    },
+    "Learning-to-Rank (LambdaMART)": {
+      "precision": 0.1303,
+      "recall": 0.2709,
+      "f1": 0.176,
+      "roc_auc": 0.5462,
+      "pr_auc": 0.1219,
+      "brier_score": 0.204
+    }
+  },
+  "prioritization_benchmarks": [
+    {
+      "strategy": "random",
+      "mean_apfd": 0.5153,
+      "std_apfd": 0.0527,
+      "mean_apfdc": 0.5326,
+      "std_apfdc": 0.0641,
+      "mean_recall_300s": 0.6817,
+      "std_recall_300s": 0.0918,
+      "mean_recall_600s": 1.0,
+      "std_recall_600s": 0.0,
+      "mean_recall_1200s": 1.0,
+      "std_recall_1200s": 0.0,
+      "strategy_name": "Baseline A: Random Ordering"
+    },
+    {
+      "strategy": "fastest_first",
+      "mean_apfd": 0.5162,
+      "std_apfd": 0.0,
+      "mean_apfdc": 0.739,
+      "std_apfdc": 0.0,
+      "mean_recall_300s": 0.9129,
+      "std_recall_300s": 0.0,
+      "mean_recall_600s": 1.0,
+      "std_recall_600s": 0.0,
+      "mean_recall_1200s": 1.0,
+      "std_recall_1200s": 0.0,
+      "strategy_name": "Baseline B: Fastest-First"
+    },
+    {
+      "strategy": "historical",
+      "mean_apfd": 0.6221,
+      "std_apfd": 0.0,
+      "mean_apfdc": 0.593,
+      "std_apfdc": 0.0,
+      "mean_recall_300s": 0.6764,
+      "std_recall_300s": 0.0,
+      "mean_recall_600s": 1.0,
+      "std_recall_600s": 0.0,
+      "mean_recall_1200s": 1.0,
+      "std_recall_1200s": 0.0,
+      "strategy_name": "Baseline C: Historical Prioritization"
+    },
+    {
+      "strategy": "ml_value_density",
+      "mean_apfd": 0.5409,
+      "std_apfd": 0.0,
+      "mean_apfdc": 0.7454,
+      "std_apfdc": 0.0,
+      "mean_recall_300s": 0.9117,
+      "std_recall_300s": 0.0,
+      "mean_recall_600s": 1.0,
+      "std_recall_600s": 0.0,
+      "mean_recall_1200s": 1.0,
+      "std_recall_1200s": 0.0,
+      "strategy_name": "ML: Logistic Regression (Value-Density)"
+    },
+    {
+      "strategy": "ml_value_density",
+      "mean_apfd": 0.5227,
+      "std_apfd": 0.0,
+      "mean_apfdc": 0.7319,
+      "std_apfdc": 0.0,
+      "mean_recall_300s": 0.909,
+      "std_recall_300s": 0.0,
+      "mean_recall_600s": 1.0,
+      "std_recall_600s": 0.0,
+      "mean_recall_1200s": 1.0,
+      "std_recall_1200s": 0.0,
+      "strategy_name": "ML: Random Forest (Value-Density)"
+    },
+    {
+      "strategy": "ml_value_density",
+      "mean_apfd": 0.5243,
+      "std_apfd": 0.0,
+      "mean_apfdc": 0.7351,
+      "std_apfdc": 0.0,
+      "mean_recall_300s": 0.9056,
+      "std_recall_300s": 0.0,
+      "mean_recall_600s": 1.0,
+      "std_recall_600s": 0.0,
+      "mean_recall_1200s": 1.0,
+      "std_recall_1200s": 0.0,
+      "strategy_name": "ML: XGBoost (Value-Density)"
+    },
+    {
+      "strategy": "ml_risk_only",
+      "mean_apfd": 0.5592,
+      "std_apfd": 0.0,
+      "mean_apfdc": 0.5443,
+      "std_apfdc": 0.0,
+      "mean_recall_300s": 0.7094,
+      "std_recall_300s": 0.0,
+      "mean_recall_600s": 1.0,
+      "std_recall_600s": 0.0,
+      "mean_recall_1200s": 1.0,
+      "std_recall_1200s": 0.0,
+      "strategy_name": "ML: XGBoost (Pure Risk)"
+    },
+    {
+      "strategy": "ml_value_density",
+      "mean_apfd": 0.5481,
+      "std_apfd": 0.0,
+      "mean_apfdc": 0.743,
+      "std_apfdc": 0.0,
+      "mean_recall_300s": 0.942,
+      "std_recall_300s": 0.0,
+      "mean_recall_600s": 1.0,
+      "std_recall_600s": 0.0,
+      "mean_recall_1200s": 1.0,
+      "std_recall_1200s": 0.0,
+      "strategy_name": "ML: MLP Neural Net (Value-Density)"
+    },
+    {
+      "strategy": "ml_ltr",
+      "mean_apfd": 0.5718,
+      "std_apfd": 0.0,
+      "mean_apfdc": 0.5913,
+      "std_apfdc": 0.0,
+      "mean_recall_300s": 0.7495,
+      "std_recall_300s": 0.0,
+      "mean_recall_600s": 1.0,
+      "std_recall_600s": 0.0,
+      "mean_recall_1200s": 1.0,
+      "std_recall_1200s": 0.0,
+      "strategy_name": "ML: Learning-to-Rank (LambdaMART)"
+    }
+  ],
+  "evaluation_dataset": {
+    "source": "Held-Out Test Builds (Chronological Split)",
+    "num_test_records": 1920,
+    "num_test_builds": 12,
+    "num_test_failures": 203
+  }
+}

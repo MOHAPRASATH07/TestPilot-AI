@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}TestPilot AI | CI Test Prioritisation{% endblock %}</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Plotly JS (Loaded on demand for comparison charts) -->
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+  <!-- KaTeX for crisp mathematical formulas -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  <!-- Top SaaS Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-tp">
+    <div class="container-fluid px-3">
+      <a class="navbar-brand-tp" href="{{ url_for('prioritize_view') }}">
+        <i class="bi bi-lightning-charge-fill text-warning"></i>
+        <span>TestPilot AI</span>
+        <span class="brand-badge">CI Prioritization</span>
+      </a>
+
+      <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#tpNavbar" aria-controls="tpNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="bi bi-list fs-5"></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="tpNavbar">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
+          <li class="nav-item">
+            <a class="nav-link nav-link-tp {% if active_page == 'prioritize' %}active{% endif %}" href="{{ url_for('prioritize_view') }}">
+              <i class="bi bi-play-circle me-1"></i> Prioritize Tests
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-tp {% if active_page == 'comparison' %}active{% endif %}" href="{{ url_for('comparison_view') }}">
+              <i class="bi bi-bar-chart-line me-1"></i> Strategy Comparison
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-tp {% if active_page == 'about' %}active{% endif %}" href="{{ url_for('about_view') }}">
+              <i class="bi bi-journal-text me-1"></i> Methodology &amp; Metrics
+            </a>
+          </li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-3">
+          <div class="system-status-indicator">
+            <span class="pulse-dot"></span>
+            <span>XGBoost Champion Ready</span>
+          </div>
+          <a href="http://127.0.0.1:8000/docs" target="_blank" class="btn btn-sm btn-outline-secondary text-slate-300 border-secondary-subtle" style="font-size: 0.75rem; color: #cbd5e1;">
+            <i class="bi bi-box-arrow-up-right me-1"></i> FastAPI Docs
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main class="flex-grow-1 py-3 px-3">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Clean SaaS Footer -->
+  <footer class="footer-tp">
+    <div class="container-fluid px-3 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+      <div>
+        <strong>TestPilot AI</strong> — Budget-Aware Machine Learning for Risk-Driven Software Test Prioritisation.
+      </div>
+      <div class="text-muted">
+        Ground truth: TCP-CI Benchmark (8,958 test records · 239 builds) · Scikit-Learn &amp; XGBoost
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1090;">
+    <div id="statusToast" class="toast align-items-center text-white bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body" id="toastMessage">
+          Action completed successfully.
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

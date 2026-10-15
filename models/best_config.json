@@ -1,0 +1,17 @@
+{
+  "model_name": "XGBoost",
+  "primary_metric": "validation_pr_auc",
+  "best_validation_score": 0.2105,
+  "hyperparameters": {
+    "n_estimators": 100,
+    "max_depth": 4,
+    "learning_rate": 0.023571419625354813,
+    "subsample": 0.9821099380386666,
+    "colsample_bytree": 0.9879712115760958,
+    "scale_pos_weight": 13.498583569405099
+  },
+  "n_trials": 12,
+  "random_seed": 42,
+  "optimization_timestamp": "2026-10-14T22:59:20.178932",
+  "evaluation_split_rule": "Fitted on train_split, evaluated strictly on validation_split"
+}

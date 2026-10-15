@@ -1,0 +1,201 @@
+strategy,elapsed_time_seconds,elapsed_time_minutes,cumulative_failures_discovered,percentage_failures_discovered
+Random Baseline,30.0,0.5,21,10.34
+Random Baseline,60.0,1.0,37,18.23
+Random Baseline,90.0,1.5,53,26.11
+Random Baseline,120.0,2.0,79,38.92
+Random Baseline,150.0,2.5,94,46.31
+Random Baseline,180.0,3.0,112,55.17
+Random Baseline,210.0,3.5,118,58.13
+Random Baseline,240.0,4.0,130,64.04
+Random Baseline,270.0,4.5,147,72.41
+Random Baseline,300.0,5.0,157,77.34
+Random Baseline,330.0,5.5,164,80.79
+Random Baseline,360.0,6.0,177,87.19
+Random Baseline,390.0,6.5,183,90.15
+Random Baseline,420.0,7.0,184,90.64
+Random Baseline,450.0,7.5,186,91.63
+Random Baseline,480.0,8.0,198,97.54
+Random Baseline,510.0,8.5,199,98.03
+Random Baseline,540.0,9.0,203,100.0
+Random Baseline,570.0,9.5,203,100.0
+Random Baseline,600.0,10.0,203,100.0
+Random Baseline,630.0,10.5,203,100.0
+Random Baseline,660.0,11.0,203,100.0
+Random Baseline,690.0,11.5,203,100.0
+Random Baseline,720.0,12.0,203,100.0
+Random Baseline,750.0,12.5,203,100.0
+Random Baseline,780.0,13.0,203,100.0
+Random Baseline,810.0,13.5,203,100.0
+Random Baseline,840.0,14.0,203,100.0
+Random Baseline,870.0,14.5,203,100.0
+Random Baseline,900.0,15.0,203,100.0
+Random Baseline,930.0,15.5,203,100.0
+Random Baseline,960.0,16.0,203,100.0
+Random Baseline,990.0,16.5,203,100.0
+Random Baseline,1020.0,17.0,203,100.0
+Random Baseline,1050.0,17.5,203,100.0
+Random Baseline,1080.0,18.0,203,100.0
+Random Baseline,1110.0,18.5,203,100.0
+Random Baseline,1140.0,19.0,203,100.0
+Random Baseline,1170.0,19.5,203,100.0
+Random Baseline,1200.0,20.0,203,100.0
+Fastest-First,30.0,0.5,40,19.7
+Fastest-First,60.0,1.0,65,32.02
+Fastest-First,90.0,1.5,89,43.84
+Fastest-First,120.0,2.0,105,51.72
+Fastest-First,150.0,2.5,125,61.58
+Fastest-First,180.0,3.0,138,67.98
+Fastest-First,210.0,3.5,155,76.35
+Fastest-First,240.0,4.0,165,81.28
+Fastest-First,270.0,4.5,174,85.71
+Fastest-First,300.0,5.0,181,89.16
+Fastest-First,330.0,5.5,184,90.64
+Fastest-First,360.0,6.0,189,93.1
+Fastest-First,390.0,6.5,190,93.6
+Fastest-First,420.0,7.0,194,95.57
+Fastest-First,450.0,7.5,198,97.54
+Fastest-First,480.0,8.0,198,97.54
+Fastest-First,510.0,8.5,199,98.03
+Fastest-First,540.0,9.0,203,100.0
+Fastest-First,570.0,9.5,203,100.0
+Fastest-First,600.0,10.0,203,100.0
+Fastest-First,630.0,10.5,203,100.0
+Fastest-First,660.0,11.0,203,100.0
+Fastest-First,690.0,11.5,203,100.0
+Fastest-First,720.0,12.0,203,100.0
+Fastest-First,750.0,12.5,203,100.0
+Fastest-First,780.0,13.0,203,100.0
+Fastest-First,810.0,13.5,203,100.0
+Fastest-First,840.0,14.0,203,100.0
+Fastest-First,870.0,14.5,203,100.0
+Fastest-First,900.0,15.0,203,100.0
+Fastest-First,930.0,15.5,203,100.0
+Fastest-First,960.0,16.0,203,100.0
+Fastest-First,990.0,16.5,203,100.0
+Fastest-First,1020.0,17.0,203,100.0
+Fastest-First,1050.0,17.5,203,100.0
+Fastest-First,1080.0,18.0,203,100.0
+Fastest-First,1110.0,18.5,203,100.0
+Fastest-First,1140.0,19.0,203,100.0
+Fastest-First,1170.0,19.5,203,100.0
+Fastest-First,1200.0,20.0,203,100.0
+Historical Prioritization,30.0,0.5,25,12.32
+Historical Prioritization,60.0,1.0,44,21.67
+Historical Prioritization,90.0,1.5,56,27.59
+Historical Prioritization,120.0,2.0,74,36.45
+Historical Prioritization,150.0,2.5,89,43.84
+Historical Prioritization,180.0,3.0,99,48.77
+Historical Prioritization,210.0,3.5,109,53.69
+Historical Prioritization,240.0,4.0,121,59.61
+Historical Prioritization,270.0,4.5,128,63.05
+Historical Prioritization,300.0,5.0,136,67.0
+Historical Prioritization,330.0,5.5,154,75.86
+Historical Prioritization,360.0,6.0,166,81.77
+Historical Prioritization,390.0,6.5,174,85.71
+Historical Prioritization,420.0,7.0,184,90.64
+Historical Prioritization,450.0,7.5,191,94.09
+Historical Prioritization,480.0,8.0,193,95.07
+Historical Prioritization,510.0,8.5,203,100.0
+Historical Prioritization,540.0,9.0,203,100.0
+Historical Prioritization,570.0,9.5,203,100.0
+Historical Prioritization,600.0,10.0,203,100.0
+Historical Prioritization,630.0,10.5,203,100.0
+Historical Prioritization,660.0,11.0,203,100.0
+Historical Prioritization,690.0,11.5,203,100.0
+Historical Prioritization,720.0,12.0,203,100.0
+Historical Prioritization,750.0,12.5,203,100.0
+Historical Prioritization,780.0,13.0,203,100.0
+Historical Prioritization,810.0,13.5,203,100.0
+Historical Prioritization,840.0,14.0,203,100.0
+Historical Prioritization,870.0,14.5,203,100.0
+Historical Prioritization,900.0,15.0,203,100.0
+Historical Prioritization,930.0,15.5,203,100.0
+Historical Prioritization,960.0,16.0,203,100.0
+Historical Prioritization,990.0,16.5,203,100.0
+Historical Prioritization,1020.0,17.0,203,100.0
+Historical Prioritization,1050.0,17.5,203,100.0
+Historical Prioritization,1080.0,18.0,203,100.0
+Historical Prioritization,1110.0,18.5,203,100.0
+Historical Prioritization,1140.0,19.0,203,100.0
+Historical Prioritization,1170.0,19.5,203,100.0
+Historical Prioritization,1200.0,20.0,203,100.0
+XGBoost (Value-Density),30.0,0.5,47,23.15
+XGBoost (Value-Density),60.0,1.0,70,34.48
+XGBoost (Value-Density),90.0,1.5,87,42.86
+XGBoost (Value-Density),120.0,2.0,109,53.69
+XGBoost (Value-Density),150.0,2.5,123,60.59
+XGBoost (Value-Density),180.0,3.0,135,66.5
+XGBoost (Value-Density),210.0,3.5,154,75.86
+XGBoost (Value-Density),240.0,4.0,166,81.77
+XGBoost (Value-Density),270.0,4.5,175,86.21
+XGBoost (Value-Density),300.0,5.0,180,88.67
+XGBoost (Value-Density),330.0,5.5,184,90.64
+XGBoost (Value-Density),360.0,6.0,190,93.6
+XGBoost (Value-Density),390.0,6.5,192,94.58
+XGBoost (Value-Density),420.0,7.0,196,96.55
+XGBoost (Value-Density),450.0,7.5,198,97.54
+XGBoost (Value-Density),480.0,8.0,198,97.54
+XGBoost (Value-Density),510.0,8.5,199,98.03
+XGBoost (Value-Density),540.0,9.0,203,100.0
+XGBoost (Value-Density),570.0,9.5,203,100.0
+XGBoost (Value-Density),600.0,10.0,203,100.0
+XGBoost (Value-Density),630.0,10.5,203,100.0
+XGBoost (Value-Density),660.0,11.0,203,100.0
+XGBoost (Value-Density),690.0,11.5,203,100.0
+XGBoost (Value-Density),720.0,12.0,203,100.0
+XGBoost (Value-Density),750.0,12.5,203,100.0
+XGBoost (Value-Density),780.0,13.0,203,100.0
+XGBoost (Value-Density),810.0,13.5,203,100.0
+XGBoost (Value-Density),840.0,14.0,203,100.0
+XGBoost (Value-Density),870.0,14.5,203,100.0
+XGBoost (Value-Density),900.0,15.0,203,100.0
+XGBoost (Value-Density),930.0,15.5,203,100.0
+XGBoost (Value-Density),960.0,16.0,203,100.0
+XGBoost (Value-Density),990.0,16.5,203,100.0
+XGBoost (Value-Density),1020.0,17.0,203,100.0
+XGBoost (Value-Density),1050.0,17.5,203,100.0
+XGBoost (Value-Density),1080.0,18.0,203,100.0
+XGBoost (Value-Density),1110.0,18.5,203,100.0
+XGBoost (Value-Density),1140.0,19.0,203,100.0
+XGBoost (Value-Density),1170.0,19.5,203,100.0
+XGBoost (Value-Density),1200.0,20.0,203,100.0
+Learning-to-Rank (LambdaMART),30.0,0.5,19,9.36
+Learning-to-Rank (LambdaMART),60.0,1.0,39,19.21
+Learning-to-Rank (LambdaMART),90.0,1.5,56,27.59
+Learning-to-Rank (LambdaMART),120.0,2.0,73,35.96
+Learning-to-Rank (LambdaMART),150.0,2.5,85,41.87
+Learning-to-Rank (LambdaMART),180.0,3.0,98,48.28
+Learning-to-Rank (LambdaMART),210.0,3.5,113,55.67
+Learning-to-Rank (LambdaMART),240.0,4.0,129,63.55
+Learning-to-Rank (LambdaMART),270.0,4.5,138,67.98
+Learning-to-Rank (LambdaMART),300.0,5.0,153,75.37
+Learning-to-Rank (LambdaMART),330.0,5.5,167,82.27
+Learning-to-Rank (LambdaMART),360.0,6.0,178,87.68
+Learning-to-Rank (LambdaMART),390.0,6.5,185,91.13
+Learning-to-Rank (LambdaMART),420.0,7.0,189,93.1
+Learning-to-Rank (LambdaMART),450.0,7.5,195,96.06
+Learning-to-Rank (LambdaMART),480.0,8.0,197,97.04
+Learning-to-Rank (LambdaMART),510.0,8.5,203,100.0
+Learning-to-Rank (LambdaMART),540.0,9.0,203,100.0
+Learning-to-Rank (LambdaMART),570.0,9.5,203,100.0
+Learning-to-Rank (LambdaMART),600.0,10.0,203,100.0
+Learning-to-Rank (LambdaMART),630.0,10.5,203,100.0
+Learning-to-Rank (LambdaMART),660.0,11.0,203,100.0
+Learning-to-Rank (LambdaMART),690.0,11.5,203,100.0
+Learning-to-Rank (LambdaMART),720.0,12.0,203,100.0
+Learning-to-Rank (LambdaMART),750.0,12.5,203,100.0
+Learning-to-Rank (LambdaMART),780.0,13.0,203,100.0
+Learning-to-Rank (LambdaMART),810.0,13.5,203,100.0
+Learning-to-Rank (LambdaMART),840.0,14.0,203,100.0
+Learning-to-Rank (LambdaMART),870.0,14.5,203,100.0
+Learning-to-Rank (LambdaMART),900.0,15.0,203,100.0
+Learning-to-Rank (LambdaMART),930.0,15.5,203,100.0
+Learning-to-Rank (LambdaMART),960.0,16.0,203,100.0
+Learning-to-Rank (LambdaMART),990.0,16.5,203,100.0
+Learning-to-Rank (LambdaMART),1020.0,17.0,203,100.0
+Learning-to-Rank (LambdaMART),1050.0,17.5,203,100.0
+Learning-to-Rank (LambdaMART),1080.0,18.0,203,100.0
+Learning-to-Rank (LambdaMART),1110.0,18.5,203,100.0
+Learning-to-Rank (LambdaMART),1140.0,19.0,203,100.0
+Learning-to-Rank (LambdaMART),1170.0,19.5,203,100.0
+Learning-to-Rank (LambdaMART),1200.0,20.0,203,100.0
