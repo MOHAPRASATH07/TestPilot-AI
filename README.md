@@ -1,3 +1,13 @@
+---
+title: TestPilot AI
+emoji: 🧪
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 5000
+pinned: false
+---
+
 # TestPilot AI: Budget-Aware Machine Learning for Risk-Driven Software Test Prioritisation
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
