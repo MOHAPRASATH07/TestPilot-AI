@@ -28,6 +28,12 @@ def ensure_fig_dir():
     os.makedirs(FIGURES_DIR, exist_ok=True)
 
 
+def _save(fig: go.Figure, name: str):
+    """Saves figure as both PNG and HTML."""
+    fig.write_image(os.path.join(FIGURES_DIR, f"{name}.png"), width=1200, height=650, scale=2)
+    fig.write_html(os.path.join(FIGURES_DIR, f"{name}.html"))
+
+
 def plot_duration_distribution(df: pd.DataFrame) -> go.Figure:
     """Chart 1: Test execution duration distribution."""
     ensure_fig_dir()
@@ -56,7 +62,7 @@ def plot_duration_distribution(df: pd.DataFrame) -> go.Figure:
             )
         ]
     )
-    fig.write_html(os.path.join(FIGURES_DIR, "chart1_duration_distribution.html"))
+    _save(fig, "chart1_duration_distribution")
     return fig
 
 
@@ -84,7 +90,7 @@ def plot_outcome_distribution(df: pd.DataFrame) -> go.Figure:
         yaxis_title="Number of Test Executions",
         showlegend=False
     )
-    fig.write_html(os.path.join(FIGURES_DIR, "chart2_outcome_distribution.html"))
+    _save(fig, "chart2_outcome_distribution")
     return fig
 
 
@@ -109,7 +115,7 @@ def plot_data_quality(df: pd.DataFrame) -> go.Figure:
         yaxis_title="Completeness (%)",
         yaxis_range=[0, 105]
     )
-    fig.write_html(os.path.join(FIGURES_DIR, "chart3_data_quality.html"))
+    _save(fig, "chart3_data_quality")
     return fig
 
 
@@ -136,7 +142,7 @@ def plot_failure_discovery_curves(curves_df: pd.DataFrame) -> go.Figure:
         yaxis_title="Cumulative Failures Discovered (%)",
         yaxis_range=[0, 102]
     )
-    fig.write_html(os.path.join(FIGURES_DIR, "chart4_failure_discovery_curves.html"))
+    _save(fig, "chart4_failure_discovery_curves")
     return fig
 
 
@@ -176,7 +182,7 @@ def plot_budget_comparison(eval_df: pd.DataFrame) -> go.Figure:
         yaxis_title="Average Failure Recall (%)",
         yaxis_range=[0, 105]
     )
-    fig.write_html(os.path.join(FIGURES_DIR, "chart5_budget_comparison.html"))
+    _save(fig, "chart5_budget_comparison")
     return fig
 
 
@@ -206,7 +212,7 @@ def plot_model_metrics(metrics_dict: Dict[str, Dict[str, float]]) -> go.Figure:
         template="plotly_white",
         yaxis_range=[0, 1.05]
     )
-    fig.write_html(os.path.join(FIGURES_DIR, "chart6_model_metrics.html"))
+    _save(fig, "chart6_model_metrics")
     return fig
 
 
@@ -225,5 +231,5 @@ def plot_feature_importance(feature_names: List[str], importances: np.ndarray, m
         labels={"Importance": "Relative Gini / Split Gain"}
     )
     fig.update_layout(template="plotly_white")
-    fig.write_html(os.path.join(FIGURES_DIR, "chart7_feature_importance.html"))
+    _save(fig, "chart7_feature_importance")
     return fig
