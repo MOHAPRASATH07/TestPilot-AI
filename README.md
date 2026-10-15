@@ -3,8 +3,9 @@ title: TestPilot AI
 emoji: 🧪
 colorFrom: blue
 colorTo: green
-sdk: docker
-app_port: 5000
+sdk: gradio
+app_file: app.py
+python_version: "3.12"
 pinned: false
 ---
 
